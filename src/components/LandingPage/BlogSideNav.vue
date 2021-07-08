@@ -12,9 +12,13 @@
             </q-card-section>
             <q-card-section>
             <q-list separator>
-                <q-item clickable v-ripple v-for="blog in recent_blog_post" :key="blog.id" :to="{ name: 'Single_Blog_Post', params: { id: blog.id } }">
-                <q-item-section lines="1"> {{ blog.title }} </q-item-section>
-                </q-item>
+              <q-item clickable v-ripple v-for="blog in recent_blog_post" :key="blog.id" :to="{ name: 'Single_Blog_Post', params: { id: blog.id } }">
+                <q-item-section>
+                  <q-item-label  lines="2">
+                    {{ blog.title }}
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
             </q-list>
         </q-card-section>
     </div>
@@ -31,8 +35,10 @@ export default {
     recent_blog_post () {
       const _ = this
       var arr = []
-      for (var i = 0; i < 5; i++) {
-        arr.push(_.getBlogPosts[i])
+      for (var i = 0; i < _.getBlogPosts.length; i++) {
+        if (i < 5) {
+          arr.push(_.getBlogPosts[i])
+        }
       }
       return arr
     }

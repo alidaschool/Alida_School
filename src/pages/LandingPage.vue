@@ -5,7 +5,9 @@
                 <div class="col-12">
                     <div :class="screenDetails.height < 4917 || screenDetails.width < 6498 ? 'text-h3' : 'text-h2' " class="text-white q-mb-md" style="max-width: 700px; ">Alida School - Online Coding School</div>
                     <div :class="screenDetails.height < 4917  || screenDetails.width < 6498 ? 'text-h5' : 'text-h4' " class="text-secondary text-bold q-mb-md">Training the next generation of tech talent in Africa</div>
-                    <q-btn no-caps color="primary" icon-right="mdi-arrow-right" class="q-pt-sm q-pb-sm q-pl-md q-pr-md" label="Apply Now" />
+                    <a href="https://forms.gle/y5cdos5y91xUsChD9" target="_blank" style="text-decoration: none;">
+                      <q-btn no-caps color="primary" icon-right="mdi-arrow-right" class="q-pt-sm q-pb-sm q-pl-md q-pr-md" label="Apply Now" />
+                    </a>
                 </div>
             </div>
         </div>
@@ -17,7 +19,10 @@
         </div>
         <div class="banner q-pa-lg text-center bg-dark text-white">
             <div class="text-h2 q-pa-lg">
-                <q-btn no-caps outline color="primary" label="Apply Now" class="q-pt-md q-pb-md q-pl-lg q-pr-lg" />
+              <a href="https://forms.gle/y5cdos5y91xUsChD9" target="_blank" style="text-decoration: none;">
+                <q-btn no-caps outline color="white" icon-right="mdi-arrow-right" class="q-pt-sm q-pb-sm q-pl-md q-pr-md" label="Apply Now" />
+              </a>
+                <!-- <q-btn no-caps outline color="primary" label="Apply Now" class="q-pt-md q-pb-md q-pl-lg q-pr-lg" /> -->
             </div>
         </div>
         <div class="payment_plan">

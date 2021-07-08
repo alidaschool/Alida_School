@@ -2,12 +2,41 @@ export default function () {
   return {
     isDark: false,
     blogs: [
-      { id: 0, imgUrl: 'https://images.pexels.com/photos/8566743/pexels-photo-8566743.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260', title: 'Our Changing Planet', author: 'Dauda Barry', time: new Date().toDateString(), content: 'lorem ipsum <br> This should be fun.', category: 'food' },
-      { id: 1, imgUrl: 'https://images.pexels.com/photos/1680247/pexels-photo-1680247.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500', title: 'Keeping up with Tech Stack', author: 'Dauda Barry', time: new Date().toDateString(), content: 'lorem ipsum <br> This should be fun.', category: 'sports' },
-      { id: 2, imgUrl: 'https://images.pexels.com/photos/2881400/pexels-photo-2881400.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260', title: 'Where do I go from here?', author: 'Dauda Barry', time: new Date().toDateString(), content: 'lorem ipsum <br> This should be fun.', category: 'software' },
-      { id: 3, imgUrl: 'https://images.pexels.com/photos/3077096/pexels-photo-3077096.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260', title: 'Software or Hardware?', author: 'Dauda Barry', time: new Date().toDateString(), content: 'lorem ipsum <br> This should be fun.', category: 'hardware' },
-      { id: 4, imgUrl: 'https://images.pexels.com/photos/2804038/pexels-photo-2804038.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260', title: 'How do I apply for jobs?', author: 'Dauda Barry', time: new Date().toDateString(), content: 'lorem ipsum <br> This should be fun.', category: 'food' },
-      { id: 5, imgUrl: 'https://images.pexels.com/photos/1680247/pexels-photo-1680247.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500', title: 'Getting Started', author: 'Dauda Barry', time: new Date().toDateString(), content: 'lorem ipsum <br> This should be fun.', category: 'life' }
+      {
+        id: 0,
+        imgUrl: 'https://images.pexels.com/photos/5391847/pexels-photo-5391847.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+        title: 'Alida School - Training the next generation of tech talent in Africa',
+        author: 'Dauda Barry',
+        time: new Date(1624921200000).toDateString(),
+        content: `
+        Alida School is an online coding school. We train our students to become software engineers in just 12 weeks. <br />  <br />
+
+
+        Africa has 200 million people aged between 15 and 24, which is the largest population of young people below the age of 30 in the world.
+        Unfortunately, young people account for 60% of Africa’s jobless population and 85% of Africans live on less than $5.50 per day.  <br /> <br />
+        
+        Teaching this population tech skills and helping them to get remote tech jobs will help to close the unemployment and poverty gap while training the next generation of tech talent in Africa.  <br /> <br />
+        
+        Learning how to code can change a person’s life. Coding is essentially the new ABC and is one of the best skills to learn if you want to turn your life around and develop yourself personally and professionally.  <br /> <br />
+        
+        There’s plenty of good resources and courses online about learning to code however the existing options are fragmented and the process of learning how to code can be lonely and challenging which in part explains why the completion rate of online courses is just 3%-7%.  <br /> <br />
+        
+        Alida School enables students to learn to code in an environment that is nurturing, motivating and with a supportive community at its core. <br /> <br />
+        
+        The daily interactions between the students and the instructor build trust and accountability, which makes the learning experience more engaging and exciting.  <br /> <br />
+        
+        This is a completely different experience from reading content online, doing online courses or watching videos online. <br /> <br />
+        
+        We believe that the best way to develop a skill is by active involvement in the learning approach hence we are big advocates of learning by doing. <br /> <br />
+        
+        Students gain hands-on experience in programming through coding tasks, weekly assignments and by building their own portfolio.  <br /> <br />
+        
+        Our mission is to train the next generation of tech talent in Africa.
+        `,
+        category: 'tech'
+      }
+      // { id: 1, imgUrl: 'https://images.pexels.com/photos/1680247/pexels-photo-1680247.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500', title: 'Keeping up with Tech Stack', author: 'Dauda Barry', time: new Date().toDateString(), content: 'lorem ipsum <br> This should be fun.', category: 'sports' },
+      // { id: 2, imgUrl: 'https://images.pexels.com/photos/2881400/pexels-photo-2881400.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260', title: 'Where do I go from here?', author: 'Dauda Barry', time: new Date().toDateString(), content: 'lorem ipsum <br> This should be fun.', category: 'software' }
     ],
     saved_blogs: [
       { id: 0, imgUrl: 'https://images.pexels.com/photos/8566743/pexels-photo-8566743.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260', title: 'Grimm Reaper', author: 'Dauda Barry', time: new Date().toDateString(), content: 'lorem ipsum <br> This should be fun.', category: 'food' },

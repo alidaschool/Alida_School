@@ -58,7 +58,7 @@ export default {
     submit_form () {
       const _ = this
       const { email, message } = _.contactus_Details
-      if (!email.trim().length) {
+      if (!email.trim().length || !email.trim().includes('@')) {
         _.notifyAlert('negative', 'mdi-alert', 'Email Field is required', 'center')
         return
       }

@@ -4,7 +4,7 @@
         <!-- <div class="hero" style="background-image: url('../../assets/img/hero.png');"> -->
             <div class="row" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); ">
                 <div class="col-12 text-center">
-                  <div class="text-white bg-grey-5 q-pl-lg q-pr-lg q-pt-sm q-pb-md">
+                  <div class="text-white q-pl-lg q-pr-lg q-pt-md q-pb-md" style="background-color: rgba(0,0,0, 0.4); border-radius: 5px;">
                   <div class="text-h4">
                     {{ blog_post.title }}
                   </div>
@@ -17,7 +17,7 @@
           <div style="max-width: 800px; width: 100%; margin: 0 auto;">
             <div id="main-blog-section"></div>
             <q-card class="q-ml-sm q-mr-sm">
-              <q-card-section v-html="blog_post.content" ></q-card-section>
+              <q-card-section class="text-h5 reading_config" v-html="blog_post.content" ></q-card-section>
             </q-card>
           </div>
         </div>
@@ -44,6 +44,10 @@
         background-blend-mode:  darken;
         background-color: rgba(0, 0, 0, 0.461);
         /* background-image: url('../../assets/img/hero.png'); */
+    }
+    .reading_config{
+      line-height: 2em;
+      word-spacing: 2px;
     }
 </style>
 
