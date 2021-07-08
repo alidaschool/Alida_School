@@ -11,7 +11,7 @@
           <div class="q-gutter-md">
             <!-- <q-btn v-if="!$q.screen.lt.md" no-caps flat rounded label="Courses" @click="$router.push({ name: 'Courses' })" /> -->
             <q-btn   no-caps flat round :icon="$q.dark.isActive ? 'mdi-lightbulb-outline' : 'mdi-lightbulb-on-outline'" :color="$q.dark.isActive ? 'grey' : 'yellow'" @click="toggle_DayNight()" />
-            <q-btn v-if="!$q.screen.lt.md" no-caps flat rounded label="Courses" :to="{ name: 'Dashboard' }" />
+            <q-btn v-if="!$q.screen.lt.md" no-caps flat rounded label="Courses" />
             <q-btn v-if="!$q.screen.lt.md" no-caps flat rounded label="Our Blog" :to="{ name: 'Blog_page' }" />
             <a href="https://forms.gle/y5cdos5y91xUsChD9" target="_blank" style="text-decoration: none;">
               <q-btn v-if="!$q.screen.lt.md" no-caps outline icon-right="mdi-arrow-right" :color="scrolled > 100 ? 'primary': 'white'" class="arrow_animation q-mt-md" label="Apply Now" />
