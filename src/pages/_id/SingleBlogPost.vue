@@ -1,14 +1,13 @@
 <template>
     <q-page>
         <div class="hero" :style="`background-image: url('${blog_post.imgUrl}')`">
-        <!-- <div class="hero" style="background-image: url('../../assets/img/hero.png');"> -->
-            <div class="row" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); ">
+            <div class="row" style="max-width: 800px; width: 100%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); ">
                 <div class="col-12 text-center">
                   <div class="text-white q-pl-lg q-pr-lg q-pt-md q-pb-md" style="background-color: rgba(0,0,0, 0.4); border-radius: 5px;">
-                  <div class="text-h4">
-                    {{ blog_post.title }}
-                  </div>
-                   <div class="text-subtitle2 ">by {{ blog_post.author }} | {{ blog_post.time }}</div>
+                    <div class="text-h4">
+                      {{ blog_post.title }}
+                    </div>
+                    <div class="text-subtitle2 ">by {{ blog_post.author }} | {{ blog_post.time }}</div>
                   </div>
                 </div>
             </div>

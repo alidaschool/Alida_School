@@ -2,7 +2,7 @@
     <q-page>
         <div class="hero">
             <!-- <div class="flex flex-center" style="position: absolute; top: 60%; left: 10%; transform: translate(-10%, -60%); "> -->
-            <div class="row" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); ">
+            <div class="row" style="max-width: 800px; width: 90%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); ">
                 <div class="col-12">
                      <vue-typer :text='["Welcome to Alida School Blog Section","Get to read so much articles","and gain varieties of knowledge"]' :repeat='Infinity' :shuffle='false' initial-action='erasing' :pre-type-delay='70' :type-delay='70' :pre-erase-delay='1500' :erase-delay='50' erase-style='backspace' :erase-on-complete='false' caret-animation='expand' ></vue-typer>
                 </div>
@@ -20,7 +20,7 @@
                   <SideNav />
                 </q-card>
               </div>
-              <div class="col-md-8 main-blog">
+              <div class="col-md-8 q-ma-sm main-blog">
                   <BlogPost />
                 <!-- <div class="row q-col-gutter-md q-mb-lg">
                   <div class="col-sm-6" >

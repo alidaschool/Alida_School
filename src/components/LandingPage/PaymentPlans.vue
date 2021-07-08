@@ -68,7 +68,6 @@ export default {
   },
   methods: {
     onResize (size) {
-      console.log(size)
       this.screenDetails.height = size.height
       this.screenDetails.width = size.width
     }
