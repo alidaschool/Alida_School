@@ -1,6 +1,7 @@
 export default function () {
   return {
     isDark: false,
+    scrollToCourses: false,
     blogs: [
       {
         id: 0,

@@ -25,10 +25,18 @@
                             </q-btn>
                         </q-card-section>
                         <q-card-section class="text-center q-gutter-md">
-                            <q-btn no-caps round text-color="green" icon="mdi-whatsapp" size="20px" />
+                          <a href="mailto:admin@alidaschool.com" target="_blank">
+                            <q-btn no-caps round :text-color=" $q.dark.isActive ? 'white' : 'black'" icon="mdi-email" size="20px" />
+                          </a>
+                          <!-- <a href="" target="_blank">
                             <q-btn no-caps round text-color="blue" icon="mdi-facebook" size="20px" />
+                          </a> -->
+                          <a href="https://www.linkedin.com/company/alida-school/" target="_blank">
                             <q-btn no-caps round text-color="green" icon="mdi-linkedin" size="20px" />
+                          </a>
+                          <a href="https://twitter.com/Alida_School" target="_blank">
                             <q-btn no-caps round text-color="blue" icon="mdi-twitter" size="20px" />
+                          </a>
                         </q-card-section>
                     </q-card>
                 </div>
@@ -37,6 +45,12 @@
         <q-resize-observer @resize="onResize" />
     </div>
 </template>
+
+<style scoped>
+  a {
+    text-decoration: none;
+  }
+</style>
 
 <script>
 export default {

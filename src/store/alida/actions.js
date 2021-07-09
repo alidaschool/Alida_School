@@ -11,3 +11,6 @@ export function EDIT_BLOG_POST ({ commit }, payload) {
 export function CUSTOM_BLOG_CATEGORY ({ commit }, payload) {
   commit('CUSTOM_BLOG_CATEGORY', payload)
 }
+export function scrollToCourses ({ commit }) {
+  commit('scrollToCourses')
+}

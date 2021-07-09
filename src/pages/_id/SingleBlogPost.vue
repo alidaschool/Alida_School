@@ -52,8 +52,8 @@
 
 <script>
 // import AdmissionProcess from 'components/LandingPage/AdmissionProcess.vue'
-import { scroll } from 'quasar'
 import { mapGetters } from 'vuex'
+import { scroll } from 'quasar'
 const { getScrollTarget, setScrollPosition } = scroll
 export default {
   name: 'Single_Blog_Page',

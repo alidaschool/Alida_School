@@ -12,7 +12,7 @@
             </q-card-section>
             <q-card-section>
             <q-list separator>
-              <q-item clickable v-ripple v-for="blog in recent_blog_post" :key="blog.id" :to="{ name: 'Single_Blog_Post', params: { id: blog.id } }">
+              <q-item clickable v-ripple v-for="blog in recent_blog_post" :key="blog.id" :to="{ name: 'Single_Blog_Post', params: { title: blog.title, id: blog.id } }">
                 <q-item-section>
                   <q-item-label  lines="2">
                     {{ blog.title }}

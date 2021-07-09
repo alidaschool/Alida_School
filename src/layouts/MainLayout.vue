@@ -11,7 +11,7 @@
           <div class="q-gutter-md">
             <!-- <q-btn v-if="!$q.screen.lt.md" no-caps flat rounded label="Courses" @click="$router.push({ name: 'Courses' })" /> -->
             <q-btn   no-caps flat round :icon="$q.dark.isActive ? 'mdi-lightbulb-outline' : 'mdi-lightbulb-on-outline'" :color="$q.dark.isActive ? 'grey' : 'yellow'" @click="toggle_DayNight()" />
-            <q-btn v-if="!$q.screen.lt.md" no-caps flat rounded label="Courses" />
+            <q-btn v-if="!$q.screen.lt.md" no-caps flat rounded label="Courses" @click="scrollToCourses_Btn()" />
             <q-btn v-if="!$q.screen.lt.md" no-caps flat rounded label="Our Blog" :to="{ name: 'Blog_page' }" />
             <a href="https://forms.gle/y5cdos5y91xUsChD9" target="_blank" style="text-decoration: none;">
               <q-btn v-if="!$q.screen.lt.md" no-caps outline icon-right="mdi-arrow-right" :color="scrolled > 100 ? 'primary': 'white'" class="arrow_animation q-mt-md" label="Apply Now" />
@@ -27,7 +27,7 @@
           <q-list padding>
             <div>
 
-              <q-item clickable v-ripple>
+              <q-item clickable v-ripple @click="scrollToCourses_Btn()">
               <!-- <q-item clickable v-ripple :to="{ name: 'Courses' }"> -->
                 <q-item-section >
                   Courses
@@ -73,7 +73,7 @@
         © {{ new Date().getFullYear() }} Alida School - Online Coding School
       </div>
     </q-footer>
-            <q-resize-observer @resize="onResize" />
+    <q-resize-observer @resize="onResize" />
   </q-layout>
 </template>
 
@@ -122,12 +122,24 @@ export default {
   },
   methods: {
     ...mapActions('alida', ['TOGGLE_MODE']),
+    ...mapActions('alida', ['scrollToCourses']),
     onResize (size) {
       this.screenDetails.height = size.height
       this.screenDetails.width = size.width
       if (size.width > 1024) {
         // This closes the leftDrawer if it's open, once the screen size is above 1024
         this.leftDrawerOpen = false
+      }
+    },
+    scrollToCourses_Btn () {
+      const _ = this
+      if (_.$route.name === 'Landing_Page') {
+        this.scrollToCourses()
+      } else {
+        _.$router.push({ name: 'Landing_Page' })
+        setTimeout(() => {
+          this.scrollToCourses()
+        }, 500)
       }
     },
     handleScroll () {

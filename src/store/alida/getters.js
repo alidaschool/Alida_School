@@ -1,6 +1,9 @@
 export function getMode (state) {
   return state.isDark
 }
+export function getScrollToCourses (state) {
+  return state.scrollToCourses
+}
 
 export function getFilteredBlogPosts (state) {
   // Sort by date here, or do that with firebase

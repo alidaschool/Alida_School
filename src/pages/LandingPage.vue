@@ -14,7 +14,7 @@
         <div class="admission_process">
             <AdmissionProcess />
         </div>
-        <div class="courses">
+        <div class="courses" id="courseID">
             <Courses />
         </div>
         <div class="banner q-pa-lg text-center bg-dark text-white">
@@ -54,6 +54,9 @@
 </style>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+import { scroll } from 'quasar'
+const { getScrollTarget, setScrollPosition } = scroll
 import AdmissionProcess from 'components/LandingPage/AdmissionProcess.vue'
 import Courses from 'components/LandingPage/Courses.vue'
 import PaymentPlan from 'components/LandingPage/PaymentPlans.vue'
@@ -61,12 +64,16 @@ import Partners from 'components/LandingPage/Partners.vue'
 import ContactUs from 'components/LandingPage/ContactUs.vue'
 export default {
   name: 'Landing_Page',
+  props: ['scrollAction'],
   components: {
     AdmissionProcess,
     Courses,
     PaymentPlan,
     Partners,
     ContactUs
+  },
+  computed: {
+    ...mapGetters('alida', ['getScrollToCourses'])
   },
   data () {
     return {
@@ -77,9 +84,26 @@ export default {
     }
   },
   methods: {
+    ...mapActions('alida', ['scrollToCourses']),
     onResize (size) {
       this.screenDetails.height = size.height
       this.screenDetails.width = size.width
+    },
+    scrollToTop (id) {
+      const ele = document.getElementById(id) // You need to get your element here
+      const target = getScrollTarget(ele)
+      const offset = ele.offsetTop - 100
+      const duration = 1000
+      setScrollPosition(target, offset, duration)
+      this.scrollToCourses()
+    }
+  },
+  watch: {
+    getScrollToCourses (val) {
+      console.log(val)
+      if (val) {
+        this.scrollToTop('courseID')
+      }
     }
   }
 }

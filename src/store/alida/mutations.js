@@ -2,6 +2,9 @@
 export function TOGGLE_MODE (state, payload) {
   state.isDark = payload
 }
+export function scrollToCourses (state) {
+  state.scrollToCourses = !state.scrollToCourses
+}
 export function ADD_NEW_BLOG_POST (state, payload) {
   // this will first send it to firebase firestore from the other side, then when successfull, it'll be stored in the state
   state.blogs.push(payload)

@@ -14,7 +14,8 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/LandingPage.vue'), name: 'Landing_Page' },
       { path: '/blog', component: () => import('pages/BlogPage.vue'), name: 'Blog_page' },
-      { path: '/blog details/:id', component: () => import('pages/_id/SingleBlogPost.vue'), name: 'Single_Blog_Post' }
+      // { path: '/blog_details/:id', component: () => import('pages/_id/SingleBlogPost.vue'), name: 'Single_Blog_Post' }
+      { path: '/blog_details/:title/:id', component: () => import('pages/_id/SingleBlogPost.vue'), name: 'Single_Blog_Post' }
     ]
   },
   {
