@@ -1,6 +1,15 @@
 export function getMode (state) {
   return state.isDark
 }
+export function getCountries (state) {
+  return state.countries.map(country => country.name)
+}
+export function getPwd (state) {
+  return state.pwd
+}
+export function getUser (state) {
+  return state.user
+}
 export function getScrollToCourses (state) {
   return state.scrollToCourses
 }

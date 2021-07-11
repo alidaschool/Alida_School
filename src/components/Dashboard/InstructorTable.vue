@@ -28,7 +28,7 @@
             {{ parseInt(props.row.salary).toLocaleString() }}
           </q-td>
           <q-td key="dateJoined" :props="props">
-            {{ new Date(props.row.dateJoined).toDateString() }}
+            {{ props.row.dateJoined }}
           </q-td>
           <q-td key="id" :props="props">
             <q-btn icon="mdi-eye" color="accent" flat round @click="viewInstructor(props.row.id)" />
@@ -66,7 +66,7 @@
                   <q-input v-model="instructorObj.location" filled label="Location" />
               </div>
               <div class="col-xs-12 col-md-6">
-                  <q-input v-model="instructorObj.country" filled label="Country" />
+                  <q-select v-model="instructorObj.country" filled label="Country" :options="getCountries" />
               </div>
               <div class="col-xs-12 col-md-6">
                   <q-input v-model="instructorObj.language" filled label="Language" />
@@ -87,36 +87,66 @@
                   <q-input v-model="instructorObj.linkedIn" filled label="linkedIn handle" />
               </div>
               <div class="col-xs-12 col-md-6">
-                  <q-input v-model="instructorObj.courses" filled label="Select Course" />
+                  <q-select v-model="instructorObj.courses" filled label="Select Course" :options="courseOptions" multiple />
               </div>
               <div class="col-xs-12 col-md-6">
-                  <q-input v-model="instructorObj.editor" filled label="Editor Priviledge" :options="['true', 'false']" />
+                  <q-select v-model="instructorObj.editor" filled label="Editor Priviledge" :options="['true', 'false']" />
               </div>
               <div class="col-xs-12 col-md-6">
                   <q-input v-model="instructorObj.salary" filled label="Salary" />
               </div>
               <div class="col-xs-12">
-                <q-input v-model="instructorObj.dateJoined" filled label="Date Joined" />
+                <q-input v-model="instructorObj.dateJoined" filled label="Date Joined" disable />
               </div>
               <div class="text-center" style="width: 100%;">
-                  <q-btn no-caps color="secondary" label="Update" style="width: 80%;" />
+                  <q-btn no-caps color="secondary" label="Update" style="width: 80%;" @click="updateUserDialog = !updateUserDialog" />
               </div>
           </div>
+      </q-card>
+    </q-dialog>
+    <q-dialog v-model="updateUserDialog">
+      <q-card style="max-width: 500px; width: 90%;">
+        <q-card-section>
+          <div class="text-h5">Confirm Update </div>
+        </q-card-section>
+        <q-card-section>
+          <q-input filled v-model="adminPassword" type="password" label="Password" />
+        </q-card-section>
+        <q-card-section class="text-center">
+          <q-btn no-caps color="secondary" label="Continue" :disable="!adminPassword.trim().length" :loading="updateServerBtn" @click="editInstructor(instructorObj.id)">
+            <template #loading>
+              <q-spinner-ball />
+            </template>
+          </q-btn>
+        </q-card-section>
       </q-card>
     </q-dialog>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import db from 'src/boot/firebase'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Instructor-Table-Component',
   computed: {
-    ...mapGetters('alida', ['getInstructors'])
+    ...mapGetters('alida', ['getInstructors']),
+    ...mapGetters('alida', ['getCourses']),
+    ...mapGetters('alida', ['getCountries']),
+    ...mapGetters('alida', ['getPwd']),
+    courseOptions () {
+      const _ = this
+      var arr = []
+      _.getCourses.forEach(course => {
+        arr.push(course.title)
+      })
+      return arr
+    }
   },
   data () {
     return {
       filter: '',
+      adminPassword: '',
       columns: [
         {
           name: 'name',
@@ -137,19 +167,59 @@ export default {
         { name: 'dateJoined', label: 'Date Joined', field: 'dateJoined' },
         { name: 'id', label: 'View', field: 'id' }
       ],
+      updateServerBtn: false,
+      updateUserDialog: false,
       viewInstructorDialog: false,
       instructorObj: {}
     }
   },
+  mounted () {},
   methods: {
+    ...mapActions('alida', ['LOAD_INSTRUCTORS']),
     viewInstructor (id) {
       const _ = this
       // eslint-disable-next-line eqeqeq
-      _.instructorObj = _.getInstructors.filter(student => student.id == id)[0]
+      localStorage.setItem('currentInstructor', JSON.stringify(_.getInstructors.filter(instructor => instructor.id == id)[0]))
+      _.instructorObj = JSON.parse(localStorage.getItem('currentInstructor'))
       _.viewInstructorDialog = true
     },
     editInstructor (id) {
-      // const _ = this
+      const _ = this
+      if (_.getPwd !== _.adminPassword) {
+        _.notifyAlert('negative', 'mdi-alert', 'Wrong Password', 'bottom')
+        return
+      }
+      _.updateServerBtn = true
+      var washingtonRef = db.collection('instructors').doc(id)
+
+      return washingtonRef.update(_.instructorObj)
+        .then(() => {
+          _.updateServerBtn = false
+          _.viewInstructorDialog = false
+          _.updateUserDialog = false
+          _.adminPassword = ''
+        })
+        .catch((error) => {
+          // The document probably doesn't exist.
+          console.error('Error updating document: ', error)
+          _.updateServerBtn = false
+        })
+    },
+    notifyAlert (type, icon, message, position) {
+      const _ = this
+      _.$q.notify({
+        type: type,
+        message: message,
+        // color: color,
+        textColor: 'white',
+        icon: icon,
+        position: position
+      })
+    }
+  },
+  watch: {
+    viewInstructorDialog (val) {
+      if (val) { localStorage.removeItem('currentInstructor') } /* Used to clear the save data */
     }
   }
 }

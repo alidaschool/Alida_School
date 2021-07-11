@@ -93,7 +93,7 @@
 </style>
 
 <script>
-
+import db from 'src/boot/firebase'
 import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'MainLayout',
@@ -119,10 +119,28 @@ export default {
   mounted () {
     const _ = this
     _.$q.dark.set(_.getMode)
+    _.db_published_blog_listener()
   },
   methods: {
     ...mapActions('alida', ['TOGGLE_MODE']),
     ...mapActions('alida', ['scrollToCourses']),
+    ...mapActions('alida', ['LOAD_BLOG_POST']),
+    db_published_blog_listener () {
+      const _ = this
+      db.collection('blogs')
+        .onSnapshot((snapshot) => {
+          snapshot.docChanges().forEach((change) => {
+            const data = change.doc.data()
+            data.id = change.doc.id
+            data.time = data.time.toDate().toDateString()
+            var obj = {
+              data: data,
+              changeType: change.type
+            }
+            _.LOAD_BLOG_POST(obj)
+          })
+        })
+    },
     onResize (size) {
       this.screenDetails.height = size.height
       this.screenDetails.width = size.width

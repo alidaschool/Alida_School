@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="row q-col-gutter-md q-mb-lg">
-            <div class="col-sm-6" v-for="blog in getFilteredBlogPosts" :key="blog.id" @click="$router.push({ name: 'Single_Blog_Post', params: { title: blog.title, id: blog.id} })">
+            <div class="col-sm-6" v-for="blog in getFilteredBlogPosts" :key="blog.id" @click="$router.push({ name: 'Single_Blog_Post', params: { title: blog.title, id: blog.id, blogType: 'published'} })">
                 <q-card clickable v-ripple >
                     <img :src="blog.imgUrl" style="height: 250px;">
 

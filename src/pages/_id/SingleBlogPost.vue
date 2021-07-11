@@ -7,6 +7,7 @@
                     <div class="text-h4">
                       {{ blog_post.title }}
                     </div>
+                    <!-- <div class="text-subtitle2 ">by {{ blog_post.author }} | {{ blog_post.time }}</div> -->
                     <div class="text-subtitle2 ">by {{ blog_post.author }} | {{ blog_post.time }}</div>
                   </div>
                 </div>
@@ -61,7 +62,8 @@ export default {
     // AdmissionProcess
   },
   computed: {
-    ...mapGetters('alida', ['getBlogPosts'])
+    ...mapGetters('alida', ['getBlogPosts']),
+    ...mapGetters('alida', ['getSavedBlogPosts'])
   },
   data () {
     return {
@@ -82,13 +84,21 @@ export default {
   },
   mounted () {
     const id = this.$route.params.id
-    this.singleBlogPost(id)
+    const type = this.$route.params.blogType
+    this.singleBlogPost(id, type)
   },
   methods: {
-    singleBlogPost (id) {
+    singleBlogPost (id, type) {
       const _ = this
       // eslint-disable-next-line eqeqeq
-      _.blog_post = _.getBlogPosts.filter(blog => blog.id == id)[0]
+      if (type === 'saved') {
+        // eslint-disable-next-line eqeqeq
+        _.blog_post = _.getSavedBlogPosts.filter(blog => blog.id == id)[0]
+        // console.log(_.blog_post)
+      } else if (type === 'published') {
+        // eslint-disable-next-line eqeqeq
+        _.blog_post = _.getBlogPosts.filter(blog => blog.id == id)[0]
+      }
     },
     onResize (size) {
       this.screenDetails.height = size.height

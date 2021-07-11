@@ -1,7 +1,7 @@
 <template>
     <q-page padding>
       <div class="row justify-between q-mb-lg">
-        <div class="text-h3 text-grey">Write Blog</div>
+        <div class="text-h4 text-grey">Write Blog</div>
         <q-btn no-caps color="accent" label="Configure" icon-right="mdi-cog" @click="configureDialog = !configureDialog" />
       </div>
 
@@ -179,8 +179,10 @@
 </template>
 
 <script>
+import db, { storage } from 'src/boot/firebase'
 // import Editor from 'components/Dashboard/Editor.vue'
 import { mapGetters, mapActions } from 'vuex'
+import { uid } from 'quasar'
 export default {
   name: 'Add-New-Blog-Page',
   components: {
@@ -199,31 +201,33 @@ export default {
       blogContent: '',
       blogTitle: '',
       blogAuthor: '',
-      blogCategory: ''
+      blogCategory: '',
+      blog_image_uid: '',
+      blog_image_URL: ''
     }
   },
+  mounted () {},
   methods: {
     ...mapActions('alida', ['ADD_NEW_BLOG_POST']),
     saveWork () {
       const _ = this
-      var blogObj = {
-        id: new Date().getTime(),
-        title: _.blogTitle,
-        imgUrl: _.blogImageFile,
-        author: _.blogAuthor,
-        content: _.blogContent,
-        time: new Date(),
-        category: _.blogCategory
+      if (!_.blogContent.trim().length) {
+        _.notifyAlert('info', 'mdi-information', 'Add some contents please', 'bottom')
+        return
       }
-      console.log(blogObj)
-      _.ADD_NEW_BLOG_POST(blogObj)
-      _.notifyAlert('info', 'mdi-content-save-all-outline', 'Saved to Database', 'bottom')
+      // Send Image to the storage bucket first...
+      _.upload_image_fireStorage('saved_blog_images', _.file)
     },
     uploadIt () {
       const _ = this
-      _.notifyAlert('positive', 'mdi-check-all', 'Successfully uploaded', 'bottom')
+      if (!_.blogContent.trim().length) {
+        _.notifyAlert('info', 'mdi-information', 'Add some contents please', 'bottom')
+        return
+      }
+      // Send Image to the storage bucket first...
+      _.upload_image_fireStorage('published_blog_images', _.file)
     },
-    upload_Avatar (input) { /* 👽👽👽 */
+    preview_image (input) { /* 👽👽👽 */
       const _ = this
       const reader = new FileReader()
       reader.onload = function () {
@@ -233,6 +237,69 @@ export default {
       reader.onerror = function () {
         _.notify_alert('negative', reader.error)
       }
+    },
+    upload_image_fireStorage (type, file) {
+      const _ = this
+      _.blog_image_uid = uid()
+      // Points to the root reference
+      var storageRef = storage
+      // Points to 'folder Name'
+      var imagesRef = storageRef.child(type)
+      // var imagesRef = storageRef.child('published_blog_images')
+      // 'file' comes from the Blob or File API
+      imagesRef.child(_.blog_image_uid).put(file).then((snapshot) => {
+        // Retrieveing the file URL, then, uploading it with the entire blog article
+        snapshot.ref.getDownloadURL().then(
+          function (downloadURL) {
+            // You get your url from here
+            _.blog_image_URL = downloadURL
+
+            // Check published or save blog
+            if (type === 'saved_blog_images') {
+              var savedOlogObj = {
+                title: _.blogTitle,
+                imgUID: _.blog_image_uid,
+                imgUrl: downloadURL, /* Will be sent to firestorage first, then generated URL will be stored in db */
+                author: _.blogAuthor,
+                content: _.blogContent,
+                time: new Date(),
+                category: _.blogCategory
+              }
+              // save in the savedBlog DB
+              db.collection('savedBlogs').add(savedOlogObj)
+                .then((docRef) => {
+                  // Clear the blog Contents
+                  _.clearContents()
+                  console.log('Document written with ID: ', docRef.id)
+                  _.notifyAlert('positive', 'mdi-check-all', 'Successfully Saved', 'bottom')
+                })
+                .catch((error) => {
+                  console.error('Error adding document: ', error)
+                })
+            } if (type === 'published_blog_images') {
+              var pubBlogObj = {
+                title: _.blogTitle,
+                imgUID: _.blog_image_uid,
+                imgUrl: downloadURL, /* Will be sent to firestorage first, then generated URL will be stored in db */
+                author: _.blogAuthor,
+                content: _.blogContent,
+                time: new Date(),
+                category: _.blogCategory
+              }
+              // save in the blog DB
+              db.collection('blogs').add(pubBlogObj)
+                .then((docRef) => {
+                  // Clear the blog Contents
+                  _.clearContents()
+                  console.log('Document written with ID: ', docRef.id)
+                  _.notifyAlert('positive', 'mdi-check-all', 'Successfully Uploaded', 'bottom')
+                })
+                .catch((error) => {
+                  console.error('Error adding document: ', error)
+                })
+            }
+          })
+      })
     },
     notifyAlert (type, icon, message, position) {
       const _ = this
@@ -244,12 +311,22 @@ export default {
         icon: icon,
         position: position
       })
+    },
+    clearContents () {
+      const _ = this
+      _.file = null
+      _.blogImageFile = null
+      _.blogContent = ''
+      _.blogTitle = ''
+      _.blogAuthor = ''
+      _.blogCategory = ''
     }
   },
   watch: {
     file (val) {
       const _ = this
-      val ? _.upload_Avatar(val) : _.blogImageFile = null
+      console.log(val)
+      val ? _.preview_image(val) : _.blogImageFile = null
     }
   }
 }

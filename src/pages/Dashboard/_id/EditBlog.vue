@@ -1,7 +1,7 @@
 <template>
     <q-page padding>
       <div class="row justify-between q-mb-lg">
-        <div class="text-h3 text-grey">Edit {{ blogType === 'published' ? 'Published' : 'Saved' }} Blog</div>
+        <div class="text-h4 text-grey">Edit {{ blogType === 'published' ? 'Published' : 'Saved' }} Blog</div>
         <q-btn no-caps color="accent" label="Configure" icon-right="mdi-cog" @click="configureDialog = !configureDialog" />
       </div>
 
@@ -212,6 +212,7 @@ export default {
     const blogId = _.$route.params.id
     _.blogType = _.$route.params.blogType
     console.log(_.blogType)
+    console.log(this.$route.params)
     _.fetchBlogPost(blogId, _.blogType)
   },
   methods: {
@@ -248,14 +249,17 @@ export default {
     },
     fetchBlogPost (id, type) {
       const _ = this
+      console.log(id, type)
       // eslint-disable-next-line eqeqeq
-      // var currentBlogObj = _.getBlogPosts.filter(blog => blog.id == id)[0]
-      // eslint-disable-next-line eqeqeq
-      var currentBlogObj = type === 'published'
+      var currentBlogObj = {}
+      if (type === 'saved') {
         // eslint-disable-next-line eqeqeq
-        ? _.getBlogPosts.filter(blog => blog.id == id)[0]
+        currentBlogObj = _.getSavedBlogPosts.filter(blog => blog.id == id)[0]
+        // console.log(_.blog_post)
+      } else if (type === 'published') {
         // eslint-disable-next-line eqeqeq
-        : _.getSavedBlogPosts.filter(blog => blog.id == id)[0]
+        currentBlogObj = _.getBlogPosts.filter(blog => blog.id == id)[0]
+      }
       _.blogId = currentBlogObj.id
       _.blogTitle = currentBlogObj.title
       _.blogImageFile = currentBlogObj.imgUrl

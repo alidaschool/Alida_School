@@ -52,24 +52,44 @@
                 <q-input v-model="courseObj.dateCreated" filled label="Date Created" />
               </div>
               <div class="text-center" style="width: 100%;">
-                  <q-btn no-caps color="secondary" label="Update" style="width: 80%;" />
+                  <q-btn no-caps color="secondary" label="Update" style="width: 80%;" @click="updateCourseDialog = !updateCourseDialog" />
               </div>
           </div>
       </q-card>
   </q-dialog>
+  <q-dialog v-model="updateCourseDialog">
+      <q-card style="max-width: 500px; width: 90%;">
+        <q-card-section>
+          <div class="text-h5">Confirm Update </div>
+        </q-card-section>
+        <q-card-section>
+          <q-input filled v-model="adminPassword" type="password" label="Password" />
+        </q-card-section>
+        <q-card-section class="text-center">
+          <q-btn no-caps color="secondary" label="Continue" :disable="!adminPassword.trim().length" :loading="updateServerBtn" @click="editCourse(courseObj.id)">
+            <template #loading>
+              <q-spinner-ball />
+            </template>
+          </q-btn>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
 <script>
+import db from 'src/boot/firebase'
 import { mapGetters } from 'vuex'
 export default {
   name: 'courses-Table-Component',
   computed: {
-    ...mapGetters('alida', ['getCourses'])
+    ...mapGetters('alida', ['getCourses']),
+    ...mapGetters('alida', ['getPwd'])
   },
   data () {
     return {
       filter: '',
+      adminPassword: '',
       columns: [
         {
           name: 'title',
@@ -85,6 +105,8 @@ export default {
         { name: 'price', label: 'Price Tag', field: 'price', sortable: true },
         { name: 'id', label: 'View', field: 'id' }
       ],
+      updateServerBtn: false,
+      updateCourseDialog: false,
       viewCourseDialog: false,
       courseObj: {}
     }
@@ -93,11 +115,47 @@ export default {
     viewCourse (id) {
       const _ = this
       // eslint-disable-next-line eqeqeq
-      _.courseObj = _.getCourses.filter(course => course.id == id)[0]
+      localStorage.setItem('currentCourse', JSON.stringify(_.getCourses.filter(course => course.id == id)[0]))
+      _.courseObj = JSON.parse(localStorage.getItem('currentCourse'))
       _.viewCourseDialog = true
     },
     editCourse (id) {
-      // const _ = this
+      const _ = this
+      if (_.getPwd !== _.adminPassword) {
+        _.notifyAlert('negative', 'mdi-alert', 'Wrong Password', 'bottom')
+        return
+      }
+      _.updateServerBtn = true
+      var washingtonRef = db.collection('courses').doc(id)
+
+      return washingtonRef.update(_.courseObj)
+        .then(() => {
+          _.updateServerBtn = false
+          _.viewCourseDialog = false
+          _.updateCourseDialog = false
+          _.adminPassword = ''
+        })
+        .catch((error) => {
+          // The document probably doesn't exist.
+          console.error('Error updating document: ', error)
+          _.updateServerBtn = false
+        })
+    },
+    notifyAlert (type, icon, message, position) {
+      const _ = this
+      _.$q.notify({
+        type: type,
+        message: message,
+        // color: color,
+        textColor: 'white',
+        icon: icon,
+        position: position
+      })
+    }
+  },
+  watch: {
+    viewCourseDialog (val) {
+      if (val) { localStorage.removeItem('currentCourse') } /* Used to clear the save data */
     }
   }
 }

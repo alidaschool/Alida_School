@@ -13,16 +13,16 @@
             {{ props.row.author }}
           </q-td>
           <q-td key="date" :props="props">
-            {{ new Date(props.row.time).toDateString() }}
+            {{ props.row.time}}
           </q-td>
           <q-td key="destination" :props="props">
             {{ props.row.destination }}
           </q-td>
           <q-td key="edit" :props="props">
-            <q-btn icon="mdi-clipboard-edit-outline" color="grey" flat round @click="editBlog(props.row.id)" />
+            <q-btn icon="mdi-clipboard-edit-outline" color="grey" flat round @click="editBlog(props.row.id, props.row.title)" />
           </q-td>
           <q-td key="id" :props="props">
-            <q-btn icon="mdi-eye" color="accent" flat round @click="viewBlog(props.row.id)" />
+            <q-btn icon="mdi-eye" color="accent" flat round @click="viewBlog(props.row.id, props.row.title)" />
           </q-td>
         </q-tr>
       </template>
@@ -65,19 +65,20 @@ export default {
       ]
     }
   },
+  mounted () {},
   methods: {
-    viewBlog (id) {
+    viewBlog (id, title) {
       const _ = this
       _.$router.push({
         name: 'Single_Blog_Post',
-        params: { id: id }
+        params: { id: id, title: title, blogType: 'saved' }
       })
     },
-    editBlog (id) {
+    editBlog (id, title) {
       const _ = this
       _.$router.push({
         name: 'Edit_Blog',
-        params: { id: id, blogType: 'saved' }
+        params: { id: id, title: title, blogType: 'saved' }
       })
     }
   }

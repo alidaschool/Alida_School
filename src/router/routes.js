@@ -1,4 +1,4 @@
-// import { Store } from '../store/index.js'
+import { Store } from '../store/index.js'
 
 const routes = [
   {
@@ -15,20 +15,20 @@ const routes = [
       { path: '', component: () => import('pages/LandingPage.vue'), name: 'Landing_Page' },
       { path: '/blog', component: () => import('pages/BlogPage.vue'), name: 'Blog_page' },
       // { path: '/blog_details/:id', component: () => import('pages/_id/SingleBlogPost.vue'), name: 'Single_Blog_Post' }
-      { path: '/blog_details/:title/:id', component: () => import('pages/_id/SingleBlogPost.vue'), name: 'Single_Blog_Post' }
+      { path: '/blog_details/:title/:id/:blogType', component: () => import('pages/_id/SingleBlogPost.vue'), name: 'Single_Blog_Post' }
     ]
   },
   {
     path: '/as',
     component: () => import('layouts/DashboardLayout.vue'),
-    // beforeEnter: (to, from, next) => {
-    //   // console.log(Store.state.userAccount.token)
-    //   if (Store.state.userAccount.token) {
-    //     next()
-    //   } else {
-    //     next({name: 'Signup'})
-    //   }
-    // },
+    beforeEnter: (to, from, next) => {
+      // console.log(Store.state.alida.token)
+      if (Store.state.alida.token) {
+        next()
+      } else {
+        next({ name: 'Login' })
+      }
+    },
     children: [
       { path: 'Dashboard', component: () => import('pages/Dashboard/Index.vue'), name: 'Dashboard' },
       { path: 'Admin Blog', component: () => import('pages/Dashboard/Blogs.vue'), name: 'Admin_Blog' },
@@ -37,7 +37,7 @@ const routes = [
       { path: 'Courses', component: () => import('pages/Dashboard/Courses.vue'), name: 'Courses' },
       { path: 'Admin Profile', component: () => import('pages/Dashboard/Profile.vue'), name: 'Profile' },
       { path: 'Add New Blog/', component: () => import('pages/Dashboard/_id/AddNewBlog.vue'), name: 'New_Blog' },
-      { path: 'Edit Blog/Blog Post:id', component: () => import('pages/Dashboard/_id/EditBlog.vue'), name: 'Edit_Blog' }
+      { path: 'Edit Blog/:title/:id/:blogType', component: () => import('pages/Dashboard/_id/EditBlog.vue'), name: 'Edit_Blog' }
     ]
   },
   {
